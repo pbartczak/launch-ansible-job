@@ -1,0 +1,10 @@
+---
+apiVersion: tower.ansible.com/v1alpha1
+kind: AnsibleJob
+metadata:
+  name: ${{ values.component_id }}-job
+  namespace: devhub
+spec:
+  connection_secret: aap-admin-token
+  job_template_name: ${{ values.jobTemplate }}
+  extra_vars: ${{ values.extra_vars }}

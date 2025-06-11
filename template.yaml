@@ -1,0 +1,48 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: launch-ansible-job-template
+  title: Ansible Job
+  description: Launch an Ansible Job within Ansible Automation Platform
+  tags:
+    - recommended
+    - aap
+spec:
+  owner: patryk
+  system: janus-idp
+  type: service
+  parameters:
+    - title: Ansible Job Definition
+      required:
+        - name
+        - jobTemplate
+      properties:
+        name:
+          title: Name of the Ansible Job
+          type: string
+          description: A unique name for the Ansible Job
+        jobTemplate:
+          title: Name of the Job Template to launch
+          type: string
+          description: Specify a job template to launch
+        extra_vars:
+          title: Extra Vars
+          type: string
+          description: Specify any extra vars to pass to the job
+          default: {}
+          ui:widget: textarea
+          ui:options:
+            rows: 15
+  steps:
+    - id: template
+      name: Generating the source code component
+      action: fetch:template
+      input:
+        url: ./skeleton
+        targetPath: argo/ansibleJobs/
+        values:
+          component_id: ${{ parameters.name }}
+          jobTemplate: ${{ parameters.jobTemplate }}
+          name: ${{ parameters.name }}
+          extra_vars: ${{ parameters.extra_vars }}
+  output: {}
