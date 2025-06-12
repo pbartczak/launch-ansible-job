@@ -23,11 +23,11 @@ spec:
         cluster:
           type: string
           enum:
-            - development
+            - dev-cluster-infra
             - production
           ui:autocomplete:
             options:
-              - development
+              - dev-cluster-infra
               - production
   steps:
     - action: kube:apply
