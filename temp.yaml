@@ -1,0 +1,43 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  description: Create a Namespace in Kubernetes
+  name: create-namespace
+  title: Create a Namespace
+spec:
+  lifecycle: experimental
+  owner: user
+  type: example
+  parameters:
+    - properties:
+        name:
+          description: The namespace name
+          title: Name
+          type: string
+          ui:autofocus: true
+      required:
+        - name
+      title: Namespace Name
+    - title: Cluster Name
+      properties:
+        cluster:
+          type: string
+          enum:
+            - development
+            - production
+          ui:autocomplete:
+            options:
+              - development
+              - production
+  steps:
+    - action: kube:apply
+      id: k-apply
+      name: Create a Resouce
+      input:
+        namespaced: false
+        clusterName: ${{ parameters.cluster }}
+        manifest: |
+          apiVersion: v1
+          kind: Namespace
+          metadata:
+            name: ${{ parameters.name }}
