@@ -45,4 +45,18 @@ spec:
           jobTemplate: ${{ parameters.jobTemplate }}
           name: ${{ parameters.name }}
           extra_vars: ${{ parameters.extra_vars }}
+    
+    - action: kube:apply
+      id: k-apply
+      name: Create a Resouce
+      input:
+        namespaced: true
+        manifest: |
+          apiVersion: v1
+          kind: ConfigMap
+          metadata:
+            name: ${{ parameters.name }}
+            namespace: devhub
+          data:
+            test: test
   output: {}
